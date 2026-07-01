@@ -1,0 +1,10 @@
+{:itonami.blueprint/id "cloud-itonami-isco-6210"
+ :itonami.blueprint/name "Independent Forestry Operations"
+ :itonami.blueprint/isco-08 "6210"
+ :itonami.blueprint/domain :forestry/operations
+ :itonami.blueprint/license "AGPL-3.0-or-later"
+ :itonami.blueprint/social-impact [:rural-livelihoods :worker-safety :environment]
+ :itonami.blueprint/governor :forestry-governor
+ :itonami.blueprint/robotics true
+ :itonami.blueprint/required-technologies [:robotics :telemetry :forms :dmn :bpmn :audit-ledger]
+ :itonami.blueprint/status :public-oss}
