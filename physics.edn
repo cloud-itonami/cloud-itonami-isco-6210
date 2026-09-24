@@ -1,0 +1,33 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; README "Robotics premise": a forestry robot performs stand surveying,
+;; felling-support and replanting assist tasks for forestry workers
+;; (ISCO 6210). Its physical work here: carrying seedlings along a forest
+;; track to the replanting block, and handing a seedling tray from its carrier
+;; to the planting position.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-6210"
+ :cases
+ [{:id :seedlings-to-replanting-block
+   :kind :transport
+   :procedure "tracked carrier robot hauls seedling trays 100 m along a forest track over litter and roots to the replanting block"
+   :params {:mass-kg 150.0 :distance-m 100.0 :v-max-mps 0.8 :a-max-mps2 0.25
+            :brake-decel-mps2 0.5 :drive-force-n 500.0 :crr 0.12
+            :cog-height-m 0.55 :support-half-length-m 0.45}
+   :sweep {:param :payload-kg :values [20.0 50.0 100.0 150.0 200.0]}
+   :quantity :cycle-time-s
+   :limit {:max 200.0 :basis "estimate: one haul within ~3 minutes keeps a 2-person planting crew supplied"}
+   :boundary {:lo 5.0 :hi 300.0}}
+  {:id :seedling-tray-to-planting-spot
+   :kind :manipulator
+   :procedure "arm hands a seedling tray from the carrier deck down to the planting spot beside the track"
+   :params {:l1-m 0.55 :l2-m 0.45 :m1-kg 6.0 :m2-kg 4.0
+            :from [0.30 0.50] :to [0.75 -0.20] :duration-s 2.5 :steps 500}
+   :sweep {:param :payload-kg :values [1.0 2.0 4.0 6.0 8.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 70.0 :basis "estimate: continuous shoulder torque of a ~6-8 kg payload class arm on a forestry carrier"}
+   :boundary {:lo 0.2 :hi 30.0}}]}
